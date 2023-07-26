@@ -2,6 +2,10 @@
 import pygame
 import random
 from pygame.locals import *
+#adicionais
+import math
+import tkinter as tk
+from tkinter import messagebox
 #funções auxiliares
 def on_grid_random():
     x = random.randint(0,590)
@@ -37,6 +41,9 @@ clock = pygame.time.Clock() #define tempo
 font = pygame.font.Font('freesansbold.ttf', 18)
 score = 0
 
+font = pygame.font.Font('freesansbold.ttf', 18)
+highscore = 0
+
 game_over = False
 while not game_over: #AVISO MECHER NO NOT game_over!!!!!!!!!!!! ver linha 109
     clock.tick(10) #VELOCIDADE (arrumar a velocidade para 20 depois)
@@ -61,7 +68,10 @@ while not game_over: #AVISO MECHER NO NOT game_over!!!!!!!!!!!! ver linha 109
         apple_pos = on_grid_random()
         snake.append((0,0))
         score = score +1
-           
+    #highscore
+    if highscore < score:
+        highscore = score
+    
     #verifica se a cobra colide com a parede e se colidir game over
     if snake[0][0] == 600 or snake[0][1] == 600 or snake[0][0] < 0 or snake[0][1] < 0:
         game_over = True
@@ -102,6 +112,12 @@ while not game_over: #AVISO MECHER NO NOT game_over!!!!!!!!!!!! ver linha 109
     score_rect = score_font.get_rect()
     score_rect.topleft = ( 600 -120, 10)
     screen.blit(score_font, score_rect)
+
+    #melhor pontução ----- INCOMPLETO
+    highscore_font = font.render('High Score: %s' % (highscore), True, (255, 255, 255))
+    highscore_rect = highscore_font.get_rect()
+    highscore_rect.topright = ( 130, 10)
+    screen.blit(highscore_font, highscore_rect)
 
     for pos in snake: 
         screen.blit(snake_skin,pos)
